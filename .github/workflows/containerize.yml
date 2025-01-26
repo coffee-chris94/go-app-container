@@ -18,8 +18,16 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Install cnspec
+      run: |
+         bash -c "$(curl -sSL https://install.mondoo.com/sh)"
+
+    - name: Verify Dockerfile with cnspec
+      run: |
+        cnspec scan dockerfile Dockerfile --policy built_binary && \
+        cnspec scan dockerfile Dockerfile --policy exposed_port
+
     - name: Build and Push Docker Image
       run: |
         docker build -t cafeespresso/go-web-app:latest .
         docker push cafeespresso/go-web-app:latest
-
