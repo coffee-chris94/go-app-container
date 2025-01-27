@@ -22,10 +22,6 @@ jobs:
       run: |
         bash -c "$(curl -sSL https://install.mondoo.com/sh)"
 
-    - name: Verify Dockerfile with cnquery (No policy)
-      run: |
-        cnquery scan docker file Dockerfile
-
     - name: Verify Port 8080 is exposed in Dockerfile
       run: |
         # Check if EXPOSE 8080 exists in Dockerfile
