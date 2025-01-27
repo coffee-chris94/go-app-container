@@ -16,11 +16,12 @@ jobs:
       run: sudo apt-get install -y git
 
 
-    - name: Clone Application Code from go-app repository
+    - name: Clone go-app repository
       run: |
-        git clone https://github.com/coffee-chris94/go-app.git app
-        cd app
-        git checkout ${{ github.event.client_payload.ref }}
+        git clone https://github.com/coffee-chris94/go-app.git
+        cd go-app
+        git checkout refs/tags/${{ github.event.release.tag_name }}
+
 
     - name: Set up Go environment
       uses: actions/setup-go@v3
@@ -60,4 +61,4 @@ jobs:
         # Build the Docker image and push it to DockerHub
         docker build -t cafeespresso/go-web-app:latest .
         docker push cafeespresso/go-web-app:latest
-
+      
