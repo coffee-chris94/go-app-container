@@ -21,14 +21,6 @@ jobs:
       run: |
         bash -c "$(curl -sSL https://install.mondoo.com/sh)"
 
-    - name: Initialize Go Module
-      run: |
-        # Check if go.mod exists, if not, run go mod init
-        if [ ! -f go.mod ]; then
-          echo "go.mod not found, initializing Go module..."
-          go mod init
-        fi
-
     - name: Verify Port 8080 is exposed in Dockerfile
       run: |
         # Check if EXPOSE 8080 exists in Dockerfile
