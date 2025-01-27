@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dockerfile provider
       run: |
-        cnspec provider install dockerfile
+        cnspec providers install dockerfile
 
     - name: Verify Dockerfile with cnspec
       run: |
