@@ -18,17 +18,13 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Install cnspec
+    - name: Install cnspec (cnquery)
       run: |
-         bash -c "$(curl -sSL https://install.mondoo.com/sh)"
+        bash -c "$(curl -sSL https://install.mondoo.com/sh)"
 
-    - name: Install dockerfile provider
+    - name: Verify Dockerfile with cnquery
       run: |
-        cnspec providers install dockerfile
-
-    - name: Verify Dockerfile with cnspec
-      run: |
-        cnspec scan dockerfile Dockerfile --policy ./dockerfile-security-policy.mql
+        cnquery scan docker file Dockerfile --policy ./dockerfile-security-policy.mql
 
     - name: Build and Push Docker Image
       run: |
