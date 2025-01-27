@@ -26,6 +26,30 @@ jobs:
       run: |
         cnquery scan docker file Dockerfile
 
+    - name: Verify Port 8080 is exposed in Dockerfile
+      run: |
+        # Check if EXPOSE 8080 exists in Dockerfile
+        expose_check=$(cnspec run docker file go-app-container/Dockerfile -c "docker.file.instructions" -j | jq '.[0] | .["docker.file.instructions"] | .[] | select(.original | contains("EXPOSE 8080"))')
+
+        if [[ -n "$expose_check" ]]; then
+            echo "Port 8080 is exposed in the Dockerfile"
+        else
+            echo "Port 8080 is NOT exposed in the Dockerfile"
+            exit 1
+        fi
+
+    - name: Verify Binary Location in Dockerfile
+      run: |
+        # Check if the binary is copied to the correct location (/app/app)
+        binary_check=$(cnspec run docker file go-app-container/Dockerfile -c "docker.file.instructions" -j | jq '.[0] | .["docker.file.instructions"] | .[] | select(.original | contains("COPY --from=builder /app/app ."))')
+
+        if [[ -n "$binary_check" ]]; then
+            echo "Binary app is copied to /app/app successfully"
+        else
+            echo "Binary app was not copied to the correct location"
+            exit 1
+        fi
+
     - name: Build and Push Docker Image
       run: |
         docker build -t cafeespresso/go-web-app:latest .
