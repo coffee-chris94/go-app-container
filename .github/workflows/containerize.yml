@@ -20,14 +20,14 @@ jobs:
 
     - name: Install cnspec
       run: |
-         bash -c "$(curl -sSL https://install.mondoo.com/sh)"
+        bash -c "$(curl -sSL https://install.mondoo.com/sh)"
 
-    - name: Verify Dockerfile with cnspec
+    - name: Verify Dockerfile with cnspec (custom MQL policy)
       run: |
-        cnspec scan dockerfile Dockerfile --policy built_binary && \
-        cnspec scan dockerfile Dockerfile --policy exposed_port
+        cnspec scan dockerfile Dockerfile --policy ./dockerfile-security-policy.mql  # Adjusted path to the working directory
 
     - name: Build and Push Docker Image
       run: |
         docker build -t cafeespresso/go-web-app:latest .
         docker push cafeespresso/go-web-app:latest
+
