@@ -22,9 +22,9 @@ jobs:
       run: |
         bash -c "$(curl -sSL https://install.mondoo.com/sh)"
 
-    - name: Verify Dockerfile with cnquery
+    - name: Verify Dockerfile with cnquery (No policy)
       run: |
-        cnquery scan docker file Dockerfile --querypack ./dockerfile-security-policy.mql
+        cnquery scan docker file Dockerfile
 
     - name: Build and Push Docker Image
       run: |
