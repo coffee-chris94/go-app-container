@@ -24,7 +24,7 @@ jobs:
 
     - name: Verify Dockerfile with cnquery
       run: |
-        cnquery scan docker file Dockerfile --policy ./dockerfile-security-policy.mql
+        cnquery scan docker file Dockerfile --querypack ./dockerfile-security-policy.mql
 
     - name: Build and Push Docker Image
       run: |
